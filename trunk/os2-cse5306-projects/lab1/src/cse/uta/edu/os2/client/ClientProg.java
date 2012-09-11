@@ -16,15 +16,15 @@ public class ClientProg {
 	public ClientProg()
 	{
 		try {
-			socket = new Socket("localhost",1234);
+			socket = new Socket("127.0.0.1",1234);
 			is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			os = new PrintWriter(socket.getOutputStream(),true);
 		}
 		catch (UnknownHostException e) {
-			System.out.println("unknown host ");
+			System.out.println("client : unknown host ");
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Error connecting to server socket");
+			System.out.println("client : Error connecting to server socket");
 			e.printStackTrace();
 			System.exit(-1);
 		}
@@ -32,15 +32,28 @@ public class ClientProg {
 	}
 	
 	public void readWriteScoket(){
-		
+		String line=null;
 		String text="Hi, there, How u doing today ?";
-		System.out.println("Sent to server +"+text);
+		System.out.println("client : Sent to server "+text);
 		os.println(text);
 		try {
-			String line =is.readLine();
-			System.out.println("recieved from server "+line);
+			
+			line =is.readLine();
+			System.out.println("client : recieved from server "+line);
+			
 		} catch (IOException e) {
-			System.out.println("Reading from socket failed");
+			System.out.println("client : Reading from socket failed");
+			e.printStackTrace();
+		}
+	}
+	
+	public void closeSocket(){
+		try {
+			is.close();
+			os.close();
+			socket.close();
+		} catch (IOException e) {
+			System.out.println("client : Error while closing the socket ");
 			e.printStackTrace();
 		}
 	}
@@ -48,6 +61,7 @@ public class ClientProg {
 	public static void main(String args[]){
 		ClientProg client = new ClientProg();
 		client.readWriteScoket();
+		client.closeSocket();
 		
 	}
 
