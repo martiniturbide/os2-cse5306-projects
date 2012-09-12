@@ -34,13 +34,15 @@ public class ClientProg {
 	public void readWriteScoket(){
 		String line=null;
 		String text="Hi, there, How u doing today ?";
-		System.out.println("client : Sent to server "+text);
-		os.println(text);
+		System.out.println("client :");
+		BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			
-			line =is.readLine();
-			System.out.println("client : recieved from server "+line);
-			
+			while((text = sysIn.readLine())!=null){
+				os.println(text);
+				line =is.readLine();
+				System.out.println("server : "+line);
+				System.out.println("client : ");
+			}
 		} catch (IOException e) {
 			System.out.println("client : Reading from socket failed");
 			e.printStackTrace();
