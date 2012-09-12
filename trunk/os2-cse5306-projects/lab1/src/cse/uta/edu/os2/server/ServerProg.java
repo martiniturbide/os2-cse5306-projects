@@ -39,21 +39,22 @@ public class ServerProg {
 	}
 	
 	public void readWriteSocket(){
-		String line=null;
+		String line=null,text="list of Synonyms";
 		try{
 			is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			os = new PrintWriter(socket.getOutputStream());
-			
+			os = new PrintWriter(socket.getOutputStream(),true);
+			BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
 			while((line = is.readLine())!=null){
 				try {
-					System.out.println("Server : reading data from server "+line);
+					System.out.println("Client : "+line);
+					System.out.println("Server : ");
+					os.println(text);						
+			
 				} 
 				catch (Exception e) {
 					System.out.println("Error while reading data from socket");
 					e.printStackTrace();
 				}
-				os.println(line);
-				System.out.println("Server : wrote data by server "+line);
 			}
 		}
 		catch(IOException e){
