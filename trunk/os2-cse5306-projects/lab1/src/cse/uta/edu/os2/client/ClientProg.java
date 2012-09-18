@@ -82,7 +82,7 @@ public class ClientProg {
 	
 	public static void main(String args[]){
 		ClientProg client = new ClientProg();
-		client.sendMessage("Hi");
+		client.sendMessage("augment");
 		System.out.println(client.recieveMessage());;
 		//client.readWriteScoket();
 		client.closeSocket();
