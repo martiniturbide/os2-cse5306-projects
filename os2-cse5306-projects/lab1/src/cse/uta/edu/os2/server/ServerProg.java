@@ -68,6 +68,25 @@ public class ServerProg {
 
 	}
 	
+	public void sendMessage(String msg){
+		if(msg!=null){
+			os.println(msg);
+		}
+		
+	}
+
+	public String recieveMessage(){
+		String msg=null;
+		try {
+			msg =is.readLine();
+		} catch (IOException e) {
+			System.out.println(this.getClass().getName()+" Exception while recieving data from client");
+			e.printStackTrace();
+		}
+		return msg;
+		}
+
+	
 	public void closeSocket(){
 		try {
 			is.close();
@@ -81,7 +100,9 @@ public class ServerProg {
 	public static void main(String args[]){
 		ServerProg server = new ServerProg();
 		server.listenServerSocket();
-		server.readWriteSocket();
+		System.out.println(server.recieveMessage());
+		server.sendMessage("Hello");
+		//server.readWriteSocket();
 		server.closeSocket();
 	}
 
