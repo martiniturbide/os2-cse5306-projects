@@ -141,7 +141,7 @@ public class ClientWindow {
 
 		fileOpenButton.addActionListener(new ActionListener() {
 
-			@Override
+			
 			public void actionPerformed(ActionEvent event) {
 				openFile();
 			}
@@ -149,7 +149,7 @@ public class ClientWindow {
 		 
 		fileNewButton.addActionListener(new ActionListener() {
 			
-			@Override
+			
 			public void actionPerformed(ActionEvent arg0) {
 				openNewFile();
 			}
