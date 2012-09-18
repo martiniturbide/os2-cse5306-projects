@@ -49,6 +49,26 @@ public class ClientProg {
 		}
 	}
 	
+	
+	public void sendMessage(String msg){
+		if(msg!=null){
+			os.println(msg);
+		}
+		
+	}
+
+	
+	public String recieveMessage(){
+		String msg=null;
+		try {
+			msg =is.readLine();
+		} catch (IOException e) {
+			System.out.println(this.getClass().getName()+" Exception while recieving data from server");
+			e.printStackTrace();
+		}
+		return msg;
+		}
+	
 	public void closeSocket(){
 		try {
 			is.close();
@@ -62,7 +82,9 @@ public class ClientProg {
 	
 	public static void main(String args[]){
 		ClientProg client = new ClientProg();
-		client.readWriteScoket();
+		client.sendMessage("Hi");
+		System.out.println(client.recieveMessage());;
+		//client.readWriteScoket();
 		client.closeSocket();
 		
 	}
