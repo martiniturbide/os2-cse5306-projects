@@ -1,6 +1,7 @@
 package cse.uta.edu.os2.server.gui;
 
 import java.awt.EventQueue;
+import java.util.HashSet;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
@@ -12,10 +13,18 @@ import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
+import cse.uta.edu.os2.server.FileDictionary;
+import cse.uta.edu.os2.server.ServerProg;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class ServerWindow {
 
 	private JFrame frame;
-
+	private ServerProg server = new ServerProg();
+	private FileDictionary fileDict = new FileDictionary();
+	private JTextArea textArea = new JTextArea();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -25,6 +34,7 @@ public class ServerWindow {
 				try {
 					ServerWindow window = new ServerWindow();
 					window.frame.setVisible(true);
+					window.listenClient();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -64,6 +74,7 @@ public class ServerWindow {
 		menuPanel.add(btnStop);
 		
 		JButton btnClear = new JButton("Clear");
+		
 		sl_menuPanel.putConstraint(SpringLayout.NORTH, btnClear, 0, SpringLayout.NORTH, btnStop);
 		sl_menuPanel.putConstraint(SpringLayout.EAST, btnClear, -6, SpringLayout.WEST, btnStop);
 		menuPanel.add(btnClear);
@@ -79,11 +90,37 @@ public class ServerWindow {
 		SpringLayout sl_textPanel = new SpringLayout();
 		textPanel.setLayout(sl_textPanel);
 		
-		JTextArea textArea = new JTextArea();
 		sl_textPanel.putConstraint(SpringLayout.NORTH, textArea, 12, SpringLayout.NORTH, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.WEST, textArea, 18, SpringLayout.WEST, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.SOUTH, textArea, -8, SpringLayout.SOUTH, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.EAST, textArea, -137, SpringLayout.EAST, textPanel);
 		textPanel.add(textArea);
+		
+
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textArea.setText("");
+			}
+		});
+	}
+	
+	public void  listenClient(){
+		String clntMsg =null;
+		while( (clntMsg =server.recieveMessage())!=null){
+			if(clntMsg!=""){
+				HashSet<String> wordSynonyms = fileDict.getSynonyms(clntMsg);
+				String msg ="Client : "+clntMsg+"\n";
+				String synonys=null;
+				if(wordSynonyms!=null && wordSynonyms.size()>0){
+					synonys=wordSynonyms.toString();
+					msg=msg+"Server :" + synonys+"\n";
+					server.sendMessage(synonys);
+				}else{
+					msg=msg+"No Synonyms found \n";
+					System.out.println(this.getClass().getName()+" No Synonyms found for this word " +clntMsg );
+				}
+				textArea.setText(msg);
+			}
+		}
 	}
 }

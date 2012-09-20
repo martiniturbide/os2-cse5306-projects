@@ -24,7 +24,7 @@ public class ClientProg {
 			System.out.println("client : unknown host ");
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("client : Error connecting to server socket");
+			System.out.println("client : Error connecting to server socket,make sure to start the Server before starting Client ");
 			e.printStackTrace();
 			System.exit(-1);
 		}

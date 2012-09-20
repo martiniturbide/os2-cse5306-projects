@@ -23,9 +23,14 @@ import javax.swing.JLabel;
 
 import java.awt.Dimension;
 import javax.swing.SpringLayout;
+
+import cse.uta.edu.os2.client.ClientProg;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,13 +43,15 @@ public class ClientWindow {
 	private JTextArea textArea = new JTextArea();
 	private JButton fileNewButton = new JButton("");
 	private JButton fileOpenButton = new JButton("");
-	private JTextField textField = new JTextField();
+	private JTextField srchField = new JTextField();
 	private JFileChooser fileChooser = new JFileChooser();
+	private ClientProg client = new ClientProg(); 
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -85,6 +92,9 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 4, SpringLayout.NORTH, frame.getContentPane());
 		frame.getContentPane().add(panel);
 		SpringLayout sl_panel = new SpringLayout();
+		sl_panel.putConstraint(SpringLayout.NORTH, srchField, 0, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, srchField, 0, SpringLayout.SOUTH, fileNewButton);
+		sl_panel.putConstraint(SpringLayout.EAST, srchField, -508, SpringLayout.EAST, panel);
 		panel.setLayout(sl_panel);
 
 		
@@ -102,22 +112,17 @@ public class ClientWindow {
 		panel.add(fileOpenButton);
 		fileOpenButton.setIcon(new ImageIcon(ClientWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
 		
-		JLabel lblSearch = new JLabel("Search");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblSearch, 0, SpringLayout.NORTH, fileNewButton);
+		JLabel lblSearch = new JLabel("Keyword");
+		sl_panel.putConstraint(SpringLayout.WEST, srchField, 6, SpringLayout.EAST, lblSearch);
 		sl_panel.putConstraint(SpringLayout.WEST, lblSearch, 42, SpringLayout.EAST, fileOpenButton);
+		sl_panel.putConstraint(SpringLayout.EAST, lblSearch, -791, SpringLayout.EAST, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, lblSearch, 0, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.SOUTH, lblSearch, 0, SpringLayout.SOUTH, fileNewButton);
 		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel.add(lblSearch);
-		
-		
-		sl_panel.putConstraint(SpringLayout.EAST, lblSearch, -6, SpringLayout.WEST, textField);
-		sl_panel.putConstraint(SpringLayout.NORTH, textField, 0, SpringLayout.NORTH, fileNewButton);
-		sl_panel.putConstraint(SpringLayout.WEST, textField, 105, SpringLayout.EAST, fileOpenButton);
-		sl_panel.putConstraint(SpringLayout.SOUTH, textField, 0, SpringLayout.SOUTH, fileNewButton);
-		sl_panel.putConstraint(SpringLayout.EAST, textField, -512, SpringLayout.EAST, panel);
-		panel.add(textField);
-		textField.setMinimumSize(new Dimension(6, 10));
-		textField.setColumns(10);
+		panel.add(srchField);
+		srchField.setMinimumSize(new Dimension(6, 10));
+		srchField.setColumns(10);
 		
 		JPanel textPanel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, textPanel, 4, SpringLayout.SOUTH, panel);
@@ -125,43 +130,105 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, 728, SpringLayout.SOUTH, panel);
 		springLayout.putConstraint(SpringLayout.EAST, textPanel, 0, SpringLayout.EAST, panel);
 		frame.getContentPane().add(textPanel);
-		JScrollPane scrollPane = new JScrollPane(textPanel);
-		textPanel.add(scrollPane);
+		SpringLayout sl_textPanel = new SpringLayout();
+		sl_textPanel.putConstraint(SpringLayout.NORTH, textArea, 0, SpringLayout.NORTH, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.SOUTH, textArea, 714, SpringLayout.NORTH, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.EAST, textArea, 1009, SpringLayout.WEST, textPanel);
+		textPanel.setLayout(sl_textPanel);
 		
 		
 		springLayout.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, textArea, 1019, SpringLayout.WEST, frame.getContentPane());
-		frame.getContentPane().add(textArea);
 		textPanel.add(textArea);
 		textArea.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		springLayout.putConstraint(SpringLayout.NORTH, textArea, 6, SpringLayout.SOUTH, panel);
 		
+		JButton srchButton = new JButton("Search");
+		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 34, SpringLayout.EAST, srchField);
+		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 20, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -409, SpringLayout.EAST, panel);
+		panel.add(srchButton);
+		
 
 		fileOpenButton.addActionListener(new ActionListener() {
 
-			
 			public void actionPerformed(ActionEvent event) {
 				openFile();
 			}
 		});
 		 
 		fileNewButton.addActionListener(new ActionListener() {
-			
-			
+		
 			public void actionPerformed(ActionEvent arg0) {
-				openNewFile();
+				clearTextArea();
 			}
 		});
 		
+		srchButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				getWordSuggestion();
+			}
+		});
+
+		textArea.addMouseListener(new MouseListener() {
+			
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getButton()==MouseEvent.BUTTON3){
+					String selectedText=null;
+					if(textArea.getSelectedText()!=null){
+						selectedText=textArea.getSelectedText();
+						System.out.println(this.getClass().getName() + "Selected text from text area is "+selectedText);
+						srchField.setText(selectedText);
+					}
+				}
+			}
+		});
+	}
+
+	public void clearTextArea(){
+		textArea.setText("");
 	}
 	
-	
-	
-	public void openNewFile(){
-		
-		textArea.setText("");
+
+	public void getWordSuggestion(){
+		String clntText=null;
+		String srvText=null;
+		if(srchField.getText()!=null && srchField.getText()!=""){
+			clntText = srchField.getText();
+			System.out.println(this.getClass().getName() +" Client sent word "+ clntText);
+			client.sendMessage(clntText);
+			srvText = client.recieveMessage();
+			System.out.println(this.getClass().getName() +" Client recieved word "+ srvText);
+			if(srvText!=null){
+				textArea.setText(srvText);
+			}
+		}
 	}
 	
 	public void openFile(){
