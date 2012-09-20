@@ -205,6 +205,9 @@ public class ClientWindow {
 						selectedText=textArea.getSelectedText();
 						System.out.println(this.getClass().getName() + "Selected text from text area is "+selectedText);
 						srchField.setText(selectedText);
+						String suggestedWords =getWordSuggestion();
+						if(suggestedWords!=null)
+							textArea.replaceSelection(suggestedWords);
 					}
 				}
 			}
@@ -216,7 +219,7 @@ public class ClientWindow {
 	}
 	
 
-	public void getWordSuggestion(){
+	public String getWordSuggestion(){
 		String clntText=null;
 		String srvText=null;
 		if(srchField.getText()!=null && srchField.getText()!=""){
@@ -226,9 +229,10 @@ public class ClientWindow {
 			srvText = client.recieveMessage();
 			System.out.println(this.getClass().getName() +" Client recieved word "+ srvText);
 			if(srvText!=null){
-				textArea.setText(srvText);
+				//textArea.setText(srvText);
 			}
 		}
+		return srvText;
 	}
 	
 	public void openFile(){
