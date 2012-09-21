@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.ImageIcon;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JToolBar;
@@ -45,7 +46,8 @@ public class ClientWindow {
 	private JButton fileOpenButton = new JButton("");
 	private JTextField srchField = new JTextField();
 	private JFileChooser fileChooser = new JFileChooser();
-	private ClientProg client = new ClientProg(); 
+	private ClientProg client = new ClientProg();
+	final private JPopupMenu popup = new JPopupMenu();
 
 	/**
 	 * Launch the application.
@@ -141,7 +143,17 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, textArea, 1019, SpringLayout.WEST, frame.getContentPane());
+		
+		textArea.add(popup);
+/*		JMenu popupMenu = new JMenu("Words");
+		popupMenu.add("word1");
+		popupMenu.add("word2");
+		popup.add(popupMenu);
+		popup.add("n");
+*/		
 		textPanel.add(textArea);
+		
+		
 		textArea.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		springLayout.putConstraint(SpringLayout.NORTH, textArea, 6, SpringLayout.SOUTH, panel);
@@ -171,6 +183,7 @@ public class ClientWindow {
 		srchButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				
 				getWordSuggestion();
 			}
 		});
@@ -208,7 +221,46 @@ public class ClientWindow {
 						String suggestedWords =getWordSuggestion();
 						if(suggestedWords!=null)
 							textArea.replaceSelection(suggestedWords);
+
+						if(suggestedWords!=null && suggestedWords!=""){
+							String words[] = suggestedWords.split(",");
+							for(String word : words){
+								popup.add(word);
+							}
+							popup.show(e.getComponent(),e.getX() ,e.getY());
+						}
+
 					}
+				}
+			}
+		});
+		
+		popup.addMouseListener(new MouseListener() {
+			
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getButton()==MouseEvent.BUTTON1){
+					
 				}
 			}
 		});
