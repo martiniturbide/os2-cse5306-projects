@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import java.awt.Button;
 import java.awt.BorderLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.ImageIcon;
@@ -37,6 +38,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.JSpinner;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JList;
 
 public class ClientWindow {
 
@@ -47,6 +53,8 @@ public class ClientWindow {
 	private JTextField srchField = new JTextField();
 	private JFileChooser fileChooser = new JFileChooser();
 	private ClientProg client = new ClientProg();
+	private DefaultListModel listModel = new DefaultListModel();
+	private JList list = new JList(listModel);
 	final private JPopupMenu popup = new JPopupMenu();
 
 	/**
@@ -88,38 +96,36 @@ public class ClientWindow {
 		
 		
 		JPanel panel = new JPanel();
+		springLayout.putConstraint(SpringLayout.WEST, panel, 10, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, -738, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, panel, 0, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, panel, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, panel, -22, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 4, SpringLayout.NORTH, frame.getContentPane());
 		frame.getContentPane().add(panel);
 		SpringLayout sl_panel = new SpringLayout();
+		sl_panel.putConstraint(SpringLayout.NORTH, fileNewButton, 0, SpringLayout.NORTH, fileOpenButton);
+		sl_panel.putConstraint(SpringLayout.SOUTH, fileNewButton, 0, SpringLayout.SOUTH, fileOpenButton);
+		sl_panel.putConstraint(SpringLayout.WEST, fileOpenButton, 17, SpringLayout.EAST, fileNewButton);
 		sl_panel.putConstraint(SpringLayout.NORTH, srchField, 0, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, srchField, 0, SpringLayout.SOUTH, fileNewButton);
+		sl_panel.putConstraint(SpringLayout.SOUTH, srchField, 0, SpringLayout.SOUTH, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, fileNewButton, 71, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, srchField, -508, SpringLayout.EAST, panel);
 		panel.setLayout(sl_panel);
-
-		
-		sl_panel.putConstraint(SpringLayout.NORTH, fileNewButton, 0, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.WEST, fileNewButton, 21, SpringLayout.WEST, panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, fileNewButton, 0, SpringLayout.SOUTH, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, fileNewButton, 55, SpringLayout.WEST, panel);
 		panel.add(fileNewButton);
 		fileNewButton.setIcon(new ImageIcon(ClientWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/File.gif")));
 		
 		
 		sl_panel.putConstraint(SpringLayout.NORTH, fileOpenButton, 0, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.WEST, fileOpenButton, 17, SpringLayout.EAST, fileNewButton);
 		sl_panel.putConstraint(SpringLayout.SOUTH, fileOpenButton, 0, SpringLayout.SOUTH, panel);
 		panel.add(fileOpenButton);
 		fileOpenButton.setIcon(new ImageIcon(ClientWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
 		
 		JLabel lblSearch = new JLabel("Keyword");
-		sl_panel.putConstraint(SpringLayout.WEST, srchField, 6, SpringLayout.EAST, lblSearch);
 		sl_panel.putConstraint(SpringLayout.WEST, lblSearch, 42, SpringLayout.EAST, fileOpenButton);
 		sl_panel.putConstraint(SpringLayout.EAST, lblSearch, -791, SpringLayout.EAST, panel);
+		sl_panel.putConstraint(SpringLayout.WEST, srchField, 6, SpringLayout.EAST, lblSearch);
 		sl_panel.putConstraint(SpringLayout.NORTH, lblSearch, 0, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, lblSearch, 0, SpringLayout.SOUTH, fileNewButton);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblSearch, 0, SpringLayout.SOUTH, panel);
 		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel.add(lblSearch);
 		panel.add(srchField);
@@ -128,14 +134,14 @@ public class ClientWindow {
 		
 		JPanel textPanel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, textPanel, 4, SpringLayout.SOUTH, panel);
-		springLayout.putConstraint(SpringLayout.WEST, textPanel, 10, SpringLayout.WEST, panel);
-		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, 728, SpringLayout.SOUTH, panel);
-		springLayout.putConstraint(SpringLayout.EAST, textPanel, 0, SpringLayout.EAST, panel);
+		springLayout.putConstraint(SpringLayout.WEST, textPanel, 10, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, -10, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, textPanel, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(textPanel);
 		SpringLayout sl_textPanel = new SpringLayout();
 		sl_textPanel.putConstraint(SpringLayout.NORTH, textArea, 0, SpringLayout.NORTH, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.SOUTH, textArea, 714, SpringLayout.NORTH, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.WEST, textArea, 236, SpringLayout.WEST, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.SOUTH, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.EAST, textArea, 1009, SpringLayout.WEST, textPanel);
 		textPanel.setLayout(sl_textPanel);
 		
@@ -154,15 +160,23 @@ public class ClientWindow {
 		textPanel.add(textArea);
 		
 		
-		textArea.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		textArea.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		springLayout.putConstraint(SpringLayout.NORTH, textArea, 6, SpringLayout.SOUTH, panel);
 		
+		
+		sl_textPanel.putConstraint(SpringLayout.WEST, list, 0, SpringLayout.WEST, textPanel);
+		list.setBorder(new LineBorder(new Color(0, 0, 0)));
+		sl_textPanel.putConstraint(SpringLayout.NORTH, list, 0, SpringLayout.NORTH, textArea);
+		sl_textPanel.putConstraint(SpringLayout.SOUTH, list, 714, SpringLayout.NORTH, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.EAST, list, -6, SpringLayout.WEST, textArea);
+		textPanel.add(list);
+		
 		JButton srchButton = new JButton("Search");
-		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, fileOpenButton);
 		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 34, SpringLayout.EAST, srchField);
-		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 20, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -409, SpringLayout.EAST, panel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 0, SpringLayout.SOUTH, fileOpenButton);
+		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -391, SpringLayout.EAST, panel);
 		panel.add(srchButton);
 		
 
@@ -219,15 +233,17 @@ public class ClientWindow {
 						System.out.println(this.getClass().getName() + "Selected text from text area is "+selectedText);
 						srchField.setText(selectedText);
 						String suggestedWords =getWordSuggestion();
-						if(suggestedWords!=null)
-							textArea.replaceSelection(suggestedWords);
 
 						if(suggestedWords!=null && suggestedWords!=""){
 							String words[] = suggestedWords.split(",");
-							for(String word : words){
-								popup.add(word);
+							listModel.removeAllElements();
+							if(words!=null && words.length>0){
+								for(String word: words){
+									//popup.add(word);
+									listModel.addElement(word);
+								}
 							}
-							popup.show(e.getComponent(),e.getX() ,e.getY());
+							//popup.show(e.getComponent(),e.getX() ,e.getY());
 						}
 
 					}
@@ -235,35 +251,46 @@ public class ClientWindow {
 			}
 		});
 		
-		popup.addMouseListener(new MouseListener() {
+		list.addMouseListener(new MouseListener() {
 			
+			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 			
+			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 			
+			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 			
+			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 			
+			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 				if(e.getButton()==MouseEvent.BUTTON1){
-					
+					if(e.getClickCount()==2){
+						int index = list.locationToIndex(e.getPoint());
+						String item =(String)listModel.getElementAt(index);
+						System.out.println("selected synonym is : "+item);
+						textArea.replaceSelection(item);
+					}
 				}
+				
 			}
 		});
+		
 	}
 
 	public void clearTextArea(){
