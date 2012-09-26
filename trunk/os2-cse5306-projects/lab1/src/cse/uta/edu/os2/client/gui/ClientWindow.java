@@ -234,7 +234,7 @@ public class ClientWindow {
 						srchField.setText(selectedText);
 						String suggestedWords =getWordSuggestion();
 
-						if(suggestedWords!=null && suggestedWords!=""){
+						if(suggestedWords!=null && suggestedWords!="NA"){
 							String words[] = suggestedWords.split(",");
 							listModel.removeAllElements();
 							if(words!=null && words.length>0){
@@ -284,7 +284,8 @@ public class ClientWindow {
 						int index = list.locationToIndex(e.getPoint());
 						String item =(String)listModel.getElementAt(index);
 						System.out.println("selected synonym is : "+item);
-						textArea.replaceSelection(item);
+						if(textArea.getSelectedText()!=null)
+							textArea.replaceSelection(item);
 					}
 				}
 				
