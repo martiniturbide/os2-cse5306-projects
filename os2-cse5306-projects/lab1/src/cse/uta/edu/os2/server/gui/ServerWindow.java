@@ -118,6 +118,7 @@ public class ServerWindow {
 				}else{
 					msg=msg+"No Synonyms found \n";
 					System.out.println(this.getClass().getName()+" No Synonyms found for this word " +clntMsg );
+					server.sendMessage("NA");
 				}
 				textArea.setText(msg);
 			}

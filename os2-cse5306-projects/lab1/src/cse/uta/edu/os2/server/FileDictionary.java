@@ -22,9 +22,8 @@ public class FileDictionary {
 	public FileDictionary(){
 		try {
 			file = new File(DICTIONARY_FILE);
-			reader = new BufferedReader(new FileReader(file));
-		} catch (FileNotFoundException e) {
-			System.out.println(this.getClass().getName()+": Exception Invalid file name/path ");
+		} catch (Exception e) {
+			System.out.println(this.getClass().getName()+": Exception while opening file name/path ");
 			e.printStackTrace();
 		}
 		
@@ -34,14 +33,22 @@ public class FileDictionary {
 	public String readDictionary(String word){
 		String line=null;
 		try {
+			reader = new BufferedReader(new FileReader(file));
 			while( (line=reader.readLine())!=null){
+				System.out.println(line);
 				Pattern pattern = Pattern.compile(word, Pattern.CASE_INSENSITIVE);
 				Matcher matcher = pattern.matcher(line);
 				while(matcher.find()){
 					return line;
 				}
 			}
-		} catch (IOException e) {
+			reader.close();
+		}
+		catch (FileNotFoundException e) {
+			System.out.println(this.getClass().getName()+": Exception Invalid file name/path ");
+			e.printStackTrace();
+		}
+		catch (IOException e) {
 			System.out.println(this.getClass().getName() + ": Exception while reading data from the dictionary file ");
 			e.printStackTrace();
 		}
