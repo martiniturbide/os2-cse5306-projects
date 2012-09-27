@@ -1,6 +1,7 @@
 package cse.uta.edu.os2.server.gui;
 
 import java.awt.EventQueue;
+
 import java.util.HashSet;
 
 import javax.swing.JFrame;
@@ -14,17 +15,19 @@ import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
 import cse.uta.edu.os2.server.FileDictionary;
+
 import cse.uta.edu.os2.server.ServerProg;
+
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ServerWindow {
 
 	private JFrame frame;
-	private ServerProg server = new ServerProg();
+	private ServerProg server = new ServerProg(this);
 	private FileDictionary fileDict = new FileDictionary();
 	private JTextArea textArea = new JTextArea();
-	
 	/**
 	 * Launch the application.
 	 */
@@ -34,7 +37,7 @@ public class ServerWindow {
 				try {
 					ServerWindow window = new ServerWindow();
 					window.frame.setVisible(true);
-					window.listenClient();
+					window.listenServer();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -104,8 +107,9 @@ public class ServerWindow {
 		});
 	}
 	
-	public void  listenClient(){
-		String clntMsg =null;
+	public void  listenServer(){
+		server.listenToClients();
+/*		String clntMsg =null;
 		while( (clntMsg =server.recieveMessage())!=null){
 			if(clntMsg!=""){
 				HashSet<String> wordSynonyms = fileDict.getSynonyms(clntMsg);
@@ -123,5 +127,10 @@ public class ServerWindow {
 				textArea.setText(msg);
 			}
 		}
+*/	}
+
+	
+	public void setTextArea(String msg){
+		textArea.append(msg);
 	}
 }
