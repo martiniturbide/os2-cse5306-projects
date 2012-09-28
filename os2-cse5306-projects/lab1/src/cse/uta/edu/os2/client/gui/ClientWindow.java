@@ -50,6 +50,7 @@ public class ClientWindow {
 	private JTextArea textArea = new JTextArea();
 	private JButton fileNewButton = new JButton("");
 	private JButton fileOpenButton = new JButton("");
+	private JButton srchButton = new JButton("Search");
 	private JTextField srchField = new JTextField();
 	private JFileChooser fileChooser = new JFileChooser();
 	private ClientProg client = new ClientProg();
@@ -151,12 +152,6 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.EAST, textArea, 1019, SpringLayout.WEST, frame.getContentPane());
 		
 		textArea.add(popup);
-/*		JMenu popupMenu = new JMenu("Words");
-		popupMenu.add("word1");
-		popupMenu.add("word2");
-		popup.add(popupMenu);
-		popup.add("n");
-*/		
 		textPanel.add(textArea);
 		
 		
@@ -172,7 +167,7 @@ public class ClientWindow {
 		sl_textPanel.putConstraint(SpringLayout.EAST, list, -6, SpringLayout.WEST, textArea);
 		textPanel.add(list);
 		
-		JButton srchButton = new JButton("Search");
+		
 		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, fileOpenButton);
 		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 34, SpringLayout.EAST, srchField);
 		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 0, SpringLayout.SOUTH, fileOpenButton);
@@ -197,31 +192,35 @@ public class ClientWindow {
 		srchButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				
-				getWordSuggestion();
+
+				if(srchField.getText()!=null && srchField.getText()!=""){
+					String srchText = srchField.getText();
+					String suggestedWords =getWordSuggestion(srchText);
+					if(suggestedWords!=null && suggestedWords!="NA"){
+						String words[] = suggestedWords.split(",");
+						listModel.removeAllElements();
+						if(words!=null && words.length>0){
+							for(String word: words){
+								listModel.addElement(word);
+							}
+						}
+					}
+				}
 			}
 		});
 
 		textArea.addMouseListener(new MouseListener() {
 			
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			public void mouseClicked(MouseEvent e) {
@@ -232,18 +231,16 @@ public class ClientWindow {
 						selectedText=textArea.getSelectedText();
 						System.out.println(this.getClass().getName() + "Selected text from text area is "+selectedText);
 						srchField.setText(selectedText);
-						String suggestedWords =getWordSuggestion();
+						String suggestedWords =getWordSuggestion(selectedText);
 
 						if(suggestedWords!=null && suggestedWords!="NA"){
 							String words[] = suggestedWords.split(",");
 							listModel.removeAllElements();
 							if(words!=null && words.length>0){
 								for(String word: words){
-									//popup.add(word);
 									listModel.addElement(word);
 								}
 							}
-							//popup.show(e.getComponent(),e.getX() ,e.getY());
 						}
 
 					}
@@ -255,26 +252,20 @@ public class ClientWindow {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -299,7 +290,7 @@ public class ClientWindow {
 	}
 	
 
-	public String getWordSuggestion(){
+	public String getWordSuggestion(String word){
 		String clntText=null;
 		String srvText=null;
 		if(srchField.getText()!=null && srchField.getText()!=""){
@@ -308,9 +299,6 @@ public class ClientWindow {
 			client.sendMessage(clntText);
 			srvText = client.recieveMessage();
 			System.out.println(this.getClass().getName() +" Client recieved word "+ srvText);
-			if(srvText!=null){
-				//textArea.setText(srvText);
-			}
 		}
 		return srvText;
 	}
