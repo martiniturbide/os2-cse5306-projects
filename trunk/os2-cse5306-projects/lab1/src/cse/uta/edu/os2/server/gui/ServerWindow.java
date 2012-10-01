@@ -28,22 +28,23 @@ public class ServerWindow {
 	private ServerProg server = new ServerProg(this);
 	private FileDictionary fileDict = new FileDictionary();
 	private JTextArea textArea = new JTextArea();
+	private JButton btnStop = new JButton("Stop");
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+/*		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+*/				try {
 					ServerWindow window = new ServerWindow();
 					window.frame.setVisible(true);
 					window.listenServer();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
+/*			}
 		});
-	}
+*/	}
 
 	/**
 	 * Create the application.
@@ -71,7 +72,7 @@ public class ServerWindow {
 		SpringLayout sl_menuPanel = new SpringLayout();
 		menuPanel.setLayout(sl_menuPanel);
 		
-		JButton btnStop = new JButton("Stop");
+		
 		sl_menuPanel.putConstraint(SpringLayout.WEST, btnStop, 87, SpringLayout.WEST, menuPanel);
 		sl_menuPanel.putConstraint(SpringLayout.SOUTH, btnStop, -6, SpringLayout.SOUTH, menuPanel);
 		menuPanel.add(btnStop);
@@ -105,6 +106,14 @@ public class ServerWindow {
 				textArea.setText("");
 			}
 		});
+		
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				server.closeSocket();
+				System.exit(0);
+			}
+		});
+
 	}
 	
 	public void  listenServer(){
@@ -129,6 +138,9 @@ public class ServerWindow {
 		}
 */	}
 
+	public void refresh(){
+		frame.validate();
+	}
 	
 	public void setTextArea(String msg){
 		textArea.append(msg);
