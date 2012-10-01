@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashSet;
 
-import net.sf.extjwnl.JWNL.OS;
 
 import cse.uta.edu.os2.server.gui.ServerWindow;
 
@@ -39,10 +39,11 @@ public class ServerProg {
 */	}
 
 	public void listenToClients(){
+		boolean listen=true;
 		try{
 			serverSocket = new ServerSocket(1234);
 			System.out.println("Server :Server starting to listen");
-			while(true){
+			while(listen){
 				socket = serverSocket.accept();
 				 Thread t  = new Thread( new Runnable() {
 
@@ -73,11 +74,17 @@ public class ServerProg {
 									}
 									synchronized (this) {
 										serverWindow.setTextArea(msg);
+										serverWindow.refresh();
 									}	
 								}
 							}
 						
-						} catch (IOException e) {
+						}
+						catch(SocketException e){
+							System.out.println("Sever shutdown !!! ");
+					
+						}
+						catch (IOException e) {
 							System.out.println(this.getClass().getName()+" Excpetion while creating input/output stream for client");
 							e.printStackTrace();
 						}
@@ -96,11 +103,15 @@ public class ServerProg {
 				 t.start();
 			}
 	}
+	catch(SocketException e){
+		System.out.println("Sever shutdown !!! ");
+		listen=false;
+	}
 	catch(IOException e)
 	{
 		System.out.println("Server :problem setting server socket to 1234");
 		e.printStackTrace();
-		System.exit(-1);
+		listen=false;
 	}
 
 		
@@ -117,7 +128,11 @@ public class ServerProg {
 		String msg=null;
 		try {
 			msg =inStream.readLine();
-		} catch (IOException e) {
+		}
+		catch(SocketException e){
+			System.out.println("Client Connection reset, clinent disconnected");
+		}
+		catch (IOException e) {
 			System.out.println(this.getClass().getName()+" Exception while recieving data from client");
 			e.printStackTrace();
 		}
@@ -127,9 +142,7 @@ public class ServerProg {
 	
 	public void closeSocket(){
 		try {
-/*			is.close();
-			os.close();
-*/			socket.close();
+			serverSocket.close();
 		} catch (IOException e) {
 			System.out.println("Error while closing the socket ");
 			e.printStackTrace();
