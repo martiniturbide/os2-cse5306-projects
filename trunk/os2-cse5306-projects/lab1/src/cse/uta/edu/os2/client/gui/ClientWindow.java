@@ -9,6 +9,7 @@ import java.awt.Button;
 import java.awt.BorderLayout;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.ImageIcon;
@@ -43,11 +44,13 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JList;
+import java.awt.Rectangle;
+import javax.swing.border.EmptyBorder;
 
 public class ClientWindow {
 
 	private JFrame frame;
-	private JTextArea textArea = new JTextArea();
+	private JEditorPane textArea = new JEditorPane();
 	private JButton fileNewButton = new JButton("");
 	private JButton fileOpenButton = new JButton("");
 	private JButton srchButton = new JButton("Search");
@@ -56,7 +59,6 @@ public class ClientWindow {
 	private ClientProg client = new ClientProg();
 	private DefaultListModel listModel = new DefaultListModel();
 	private JList list = new JList(listModel);
-	final private JPopupMenu popup = new JPopupMenu();
 
 	/**
 	 * Launch the application.
@@ -134,38 +136,97 @@ public class ClientWindow {
 		srchField.setColumns(10);
 		
 		JPanel textPanel = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, textPanel, 4, SpringLayout.SOUTH, panel);
-		springLayout.putConstraint(SpringLayout.WEST, textPanel, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, -10, SpringLayout.SOUTH, frame.getContentPane());
+		textPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		springLayout.putConstraint(SpringLayout.NORTH, textPanel, 6, SpringLayout.SOUTH, panel);
 		springLayout.putConstraint(SpringLayout.EAST, textPanel, -10, SpringLayout.EAST, frame.getContentPane());
+		JScrollPane scrollText = new JScrollPane(textArea);
+		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, -10, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(textPanel);
 		SpringLayout sl_textPanel = new SpringLayout();
-		sl_textPanel.putConstraint(SpringLayout.NORTH, textArea, 0, SpringLayout.NORTH, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.WEST, textArea, 236, SpringLayout.WEST, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.SOUTH, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.EAST, textArea, 1009, SpringLayout.WEST, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.NORTH, scrollText, 0, SpringLayout.NORTH, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.WEST, scrollText, 0, SpringLayout.WEST, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.SOUTH, scrollText, 0, SpringLayout.SOUTH, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.EAST, scrollText, 756, SpringLayout.WEST, textPanel);
 		textPanel.setLayout(sl_textPanel);
 		
 		
-		springLayout.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, textArea, 1019, SpringLayout.WEST, frame.getContentPane());
-		
-		textArea.add(popup);
-		textPanel.add(textArea);
+		springLayout.putConstraint(SpringLayout.WEST, scrollText, 0, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollText, -10, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, scrollText, 1019, SpringLayout.WEST, frame.getContentPane());
+		//textPanel.add(textArea);
 		
 		
-		textArea.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollText.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		springLayout.putConstraint(SpringLayout.NORTH, textArea, 6, SpringLayout.SOUTH, panel);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollText, 6, SpringLayout.SOUTH, panel);
 		
+		textPanel.add(scrollText);
+		sl_textPanel.putConstraint(SpringLayout.NORTH, list, 10, SpringLayout.NORTH, textArea);
+		sl_textPanel.putConstraint(SpringLayout.EAST, list, 39, SpringLayout.WEST, textArea);
+		
+		JPanel listPanel = new JPanel();
+		springLayout.putConstraint(SpringLayout.WEST, textPanel, 8, SpringLayout.EAST, listPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, listPanel, 0, SpringLayout.NORTH, textPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, listPanel, -10, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, listPanel, 257, SpringLayout.WEST, frame.getContentPane());
+		listPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		springLayout.putConstraint(SpringLayout.WEST, listPanel, 13, SpringLayout.WEST, frame.getContentPane());
+		sl_textPanel.putConstraint(SpringLayout.NORTH, listPanel, 0, SpringLayout.NORTH, scrollText);
+		sl_textPanel.putConstraint(SpringLayout.WEST, listPanel, -29, SpringLayout.EAST, list);
+		sl_textPanel.putConstraint(SpringLayout.EAST, listPanel, -6, SpringLayout.WEST, scrollText);
+		frame.getContentPane().add(listPanel);
+		list.setBorder(null);
+		JScrollPane scrollList = new JScrollPane(list);
+		scrollList.setBounds(new Rectangle(1, 1, 1, 1));
+		scrollList.setBorder(new LineBorder(new Color(0, 0, 0)));
+		sl_textPanel.putConstraint(SpringLayout.SOUTH, listPanel, 0, SpringLayout.SOUTH, scrollText);
+		SpringLayout sl_listPanel = new SpringLayout();
+		sl_listPanel.putConstraint(SpringLayout.NORTH, scrollList, 0, SpringLayout.NORTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.WEST, scrollList, 0, SpringLayout.WEST, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, scrollList, 722, SpringLayout.NORTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.EAST, scrollList, 244, SpringLayout.WEST, listPanel);
+		listPanel.setLayout(sl_listPanel);
 		
 		sl_textPanel.putConstraint(SpringLayout.WEST, list, 0, SpringLayout.WEST, textPanel);
-		list.setBorder(new LineBorder(new Color(0, 0, 0)));
-		sl_textPanel.putConstraint(SpringLayout.NORTH, list, 0, SpringLayout.NORTH, textArea);
+		listPanel.add(scrollList);
 		sl_textPanel.putConstraint(SpringLayout.SOUTH, list, 714, SpringLayout.NORTH, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.EAST, list, -6, SpringLayout.WEST, textArea);
-		textPanel.add(list);
+		
+		list.addMouseListener(new MouseListener() {
+			
+
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+
+			public void mouseExited(MouseEvent e) {
+			}
+			
+
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton()==MouseEvent.BUTTON1){
+					if(e.getClickCount()==2){
+						int index = list.locationToIndex(e.getPoint());
+						String item =(String)listModel.getElementAt(index);
+						System.out.println("selected synonym is : "+item);
+						if(textArea.getSelectedText()!=null)
+							textArea.replaceSelection(item);
+					}
+				}
+				
+			}
+		});
+		
+
 		
 		
 		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, fileOpenButton);
@@ -245,41 +306,6 @@ public class ClientWindow {
 
 					}
 				}
-			}
-		});
-		
-		list.addMouseListener(new MouseListener() {
-			
-
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-			
-
-			public void mousePressed(MouseEvent e) {
-				
-			}
-			
-
-			public void mouseExited(MouseEvent e) {
-			}
-			
-
-			public void mouseEntered(MouseEvent e) {
-			}
-			
-
-			public void mouseClicked(MouseEvent e) {
-				if(e.getButton()==MouseEvent.BUTTON1){
-					if(e.getClickCount()==2){
-						int index = list.locationToIndex(e.getPoint());
-						String item =(String)listModel.getElementAt(index);
-						System.out.println("selected synonym is : "+item);
-						if(textArea.getSelectedText()!=null)
-							textArea.replaceSelection(item);
-					}
-				}
-				
 			}
 		});
 		
