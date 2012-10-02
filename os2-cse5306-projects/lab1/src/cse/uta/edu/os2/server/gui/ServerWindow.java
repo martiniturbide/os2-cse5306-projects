@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import java.util.HashSet;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 import javax.swing.JPanel;
@@ -84,6 +85,7 @@ public class ServerWindow {
 		menuPanel.add(btnClear);
 		
 		JPanel textPanel = new JPanel();
+		JScrollPane scrollPane = new JScrollPane(textArea);
 		springLayout.putConstraint(SpringLayout.NORTH, textPanel, 49, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, textPanel, 10, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, -10, SpringLayout.SOUTH, frame.getContentPane());
@@ -92,13 +94,14 @@ public class ServerWindow {
 		textPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		frame.getContentPane().add(textPanel);
 		SpringLayout sl_textPanel = new SpringLayout();
+		sl_textPanel.putConstraint(SpringLayout.EAST, scrollPane, -10, SpringLayout.EAST, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.EAST, textArea, -12, SpringLayout.EAST, textPanel);
 		textPanel.setLayout(sl_textPanel);
 		
-		sl_textPanel.putConstraint(SpringLayout.NORTH, textArea, 12, SpringLayout.NORTH, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.WEST, textArea, 18, SpringLayout.WEST, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.SOUTH, textArea, -8, SpringLayout.SOUTH, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.EAST, textArea, -137, SpringLayout.EAST, textPanel);
-		textPanel.add(textArea);
+		sl_textPanel.putConstraint(SpringLayout.NORTH, scrollPane, 12, SpringLayout.NORTH, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.WEST, scrollPane, 18, SpringLayout.WEST, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.SOUTH, scrollPane, -8, SpringLayout.SOUTH, textPanel);
+		textPanel.add(scrollPane);
 		
 
 		btnClear.addActionListener(new ActionListener() {
