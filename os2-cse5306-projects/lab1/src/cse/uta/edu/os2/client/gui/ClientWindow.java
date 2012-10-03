@@ -262,6 +262,8 @@ public class ClientWindow {
 						listModel.removeAllElements();
 						if(words!=null && words.length>0){
 							for(String word: words){
+								word=word.replaceFirst("\\[", " ");
+								word=word.replaceFirst("\\]", " ");
 								listModel.addElement(word);
 							}
 						}
@@ -299,6 +301,8 @@ public class ClientWindow {
 							listModel.removeAllElements();
 							if(words!=null && words.length>0){
 								for(String word: words){
+									word=word.replaceFirst("\\[", " ");
+									word=word.replaceFirst("\\]", " ");
 									listModel.addElement(word);
 								}
 							}
