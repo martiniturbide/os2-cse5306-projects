@@ -13,6 +13,17 @@ Project Description :
 	allow the user to select another word.
 
 
+Limitation: 
+-----------
+	Dictionary is implemented for only limited set of words, if word is search which is not in the Dictionary.txt file, it will show the 
+			synonym list as NA.
+			
+			
+Test words : type any word in the Dictionary.txt file, below are sample ones
+-----------
+ability,advance,answer,bonus,conquer,dictate...
+
+
 Packet structure :
 ------------------ 
 	This project contains src folder, ReadMe.txt and Dictionary.txt
