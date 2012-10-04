@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 /**
  * this class responsible for creating the client program socket and make 
  * a request to the server for synonym for a word 
- * @author lakshmanas
+ * @author lakshmana s(1000789751)
  *
  */
 public class ClientProg {

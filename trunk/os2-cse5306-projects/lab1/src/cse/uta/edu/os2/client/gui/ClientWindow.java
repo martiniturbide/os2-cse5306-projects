@@ -35,7 +35,7 @@ import cse.uta.edu.os2.client.ClientProg;
 /**
  * this class involves the Client GUI methods and variables
  * running this method will display the client GUI
- * @author lakshmanas
+ * @author lakshmana s(1000789751)
  *
  */
 public class ClientWindow {
