@@ -98,23 +98,24 @@ public class ClientWindow {
 	private void initialize() {
 		// a frame is created for the client
 		frame = new JFrame();
-		frame.setMinimumSize(new Dimension(1024, 800));
-		frame.setMaximumSize(new Dimension(1024, 800));
-		frame.setBounds(100, 100, 1045, 621);
+		frame.setResizable(false);
+		frame.setMinimumSize(new Dimension(1024, 650));
+		frame.setMaximumSize(new Dimension(1024, 600));
+		frame.setBounds(100, 30, 1018, 723);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		
 		// a panel is created inside the frame
 		JPanel panel = new JPanel();
-		springLayout.putConstraint(SpringLayout.WEST, panel, 10, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, -738, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, panel, -22, SpringLayout.EAST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, panel, 4, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, panel, 10, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, panel, 15, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, panel, -655, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, panel, -17, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(panel);
 		SpringLayout sl_panel = new SpringLayout();
-		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 599, SpringLayout.WEST, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, srchField, -44, SpringLayout.WEST, srchButton);
+		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 15, SpringLayout.EAST, srchField);
+		sl_panel.putConstraint(SpringLayout.EAST, srchField, -433, SpringLayout.EAST, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -327, SpringLayout.EAST, panel);
 		sl_panel.putConstraint(SpringLayout.NORTH, srchField, 0, SpringLayout.NORTH, fileNewButton);
 		sl_panel.putConstraint(SpringLayout.SOUTH, srchField, 0, SpringLayout.SOUTH, panel);
@@ -148,17 +149,16 @@ public class ClientWindow {
 		srchField.setColumns(10);
 		
 		JPanel textPanel = new JPanel();
-		textPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		springLayout.putConstraint(SpringLayout.NORTH, textPanel, 6, SpringLayout.SOUTH, panel);
-		springLayout.putConstraint(SpringLayout.EAST, textPanel, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, textPanel, -22, SpringLayout.EAST, frame.getContentPane());
+		textPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		JScrollPane scrollText = new JScrollPane(textArea);
-		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, -10, SpringLayout.SOUTH, frame.getContentPane());
 		frame.getContentPane().add(textPanel);
 		SpringLayout sl_textPanel = new SpringLayout();
 		sl_textPanel.putConstraint(SpringLayout.NORTH, scrollText, 0, SpringLayout.NORTH, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.WEST, scrollText, 0, SpringLayout.WEST, textPanel);
 		sl_textPanel.putConstraint(SpringLayout.SOUTH, scrollText, 0, SpringLayout.SOUTH, textPanel);
-		sl_textPanel.putConstraint(SpringLayout.EAST, scrollText, 756, SpringLayout.WEST, textPanel);
+		sl_textPanel.putConstraint(SpringLayout.EAST, scrollText, 727, SpringLayout.WEST, textPanel);
 		textPanel.setLayout(sl_textPanel);
 		
 		
@@ -177,12 +177,13 @@ public class ClientWindow {
 		sl_textPanel.putConstraint(SpringLayout.EAST, list, 39, SpringLayout.WEST, textArea);
 		
 		JPanel listPanel = new JPanel();
-		springLayout.putConstraint(SpringLayout.WEST, textPanel, 8, SpringLayout.EAST, listPanel);
-		springLayout.putConstraint(SpringLayout.NORTH, listPanel, 0, SpringLayout.NORTH, textPanel);
+		springLayout.putConstraint(SpringLayout.WEST, textPanel, 6, SpringLayout.EAST, listPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, textPanel, 0, SpringLayout.SOUTH, listPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, listPanel, -10, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, listPanel, 257, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, listPanel, 6, SpringLayout.SOUTH, panel);
+		springLayout.putConstraint(SpringLayout.WEST, listPanel, 0, SpringLayout.WEST, panel);
+		springLayout.putConstraint(SpringLayout.EAST, listPanel, -761, SpringLayout.EAST, frame.getContentPane());
 		listPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-		springLayout.putConstraint(SpringLayout.WEST, listPanel, 13, SpringLayout.WEST, frame.getContentPane());
 		sl_textPanel.putConstraint(SpringLayout.NORTH, listPanel, 0, SpringLayout.NORTH, scrollText);
 		sl_textPanel.putConstraint(SpringLayout.WEST, listPanel, -29, SpringLayout.EAST, list);
 		sl_textPanel.putConstraint(SpringLayout.EAST, listPanel, -6, SpringLayout.WEST, scrollText);
@@ -195,7 +196,7 @@ public class ClientWindow {
 		SpringLayout sl_listPanel = new SpringLayout();
 		sl_listPanel.putConstraint(SpringLayout.NORTH, scrollList, 0, SpringLayout.NORTH, listPanel);
 		sl_listPanel.putConstraint(SpringLayout.WEST, scrollList, 0, SpringLayout.WEST, listPanel);
-		sl_listPanel.putConstraint(SpringLayout.SOUTH, scrollList, 722, SpringLayout.NORTH, listPanel);
+		sl_listPanel.putConstraint(SpringLayout.SOUTH, scrollList, 639, SpringLayout.NORTH, listPanel);
 		sl_listPanel.putConstraint(SpringLayout.EAST, scrollList, 244, SpringLayout.WEST, listPanel);
 		listPanel.setLayout(sl_listPanel);
 		
