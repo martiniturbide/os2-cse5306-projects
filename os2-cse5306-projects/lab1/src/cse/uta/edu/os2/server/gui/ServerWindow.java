@@ -16,7 +16,7 @@ import cse.uta.edu.os2.server.ServerProg;
 
 /**
  * this class responsible for displaying server GUI events the listener
- * @author lakshmanas
+ * @author lakshmana s(1000789751)
  *
  */
 public class ServerWindow {

@@ -15,7 +15,7 @@ import cse.uta.edu.os2.server.gui.ServerWindow;
  * This class is responsible for creating the server socet and waits the 
  * clients sockets and for each client it creates a thread 
  *  
- * @author lakshmanas
+ * @author lakshmana s(1000789751)
  *
  */
 public class ServerProg {

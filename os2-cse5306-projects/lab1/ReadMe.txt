@@ -1,3 +1,5 @@
+Author : Lakshmana Srinivasa (1000789751)
+
 Project Description : 
 		The client process will have a GUI interface and will
 	allow the user to select a word in a block of text and have the system send a query to a

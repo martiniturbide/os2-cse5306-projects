@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /** 
  * this class responsible for accessing the file dictionary look for words 
  * and give a list of synonyms for a word
- * @author lakshmanas
+ * @author lakshmana s(1000789751)
  *
  */
 public class FileDictionary {
