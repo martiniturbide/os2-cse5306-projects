@@ -1,37 +1,12 @@
 package cse.uta.edu.os2.client.gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import java.awt.Button;
-import java.awt.BorderLayout;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-
+import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.SpringLayout;
-
-import cse.uta.edu.os2.client.ClientProg;
-
+import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -39,13 +14,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JSpinner;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
+
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import java.awt.Rectangle;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import cse.uta.edu.os2.client.ClientProg;
 
 /**
  * this class involves the Client GUI methods and variables

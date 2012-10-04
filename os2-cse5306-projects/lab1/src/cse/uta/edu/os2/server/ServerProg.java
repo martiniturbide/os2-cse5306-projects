@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashSet;
 
-
 import cse.uta.edu.os2.server.gui.ServerWindow;
 
 /**
