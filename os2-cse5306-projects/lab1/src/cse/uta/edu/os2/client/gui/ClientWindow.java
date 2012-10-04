@@ -113,13 +113,17 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 4, SpringLayout.NORTH, frame.getContentPane());
 		frame.getContentPane().add(panel);
 		SpringLayout sl_panel = new SpringLayout();
+		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 599, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, srchField, -44, SpringLayout.WEST, srchButton);
+		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -327, SpringLayout.EAST, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, srchField, 0, SpringLayout.NORTH, fileNewButton);
+		sl_panel.putConstraint(SpringLayout.SOUTH, srchField, 0, SpringLayout.SOUTH, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, fileNewButton);
+		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 0, SpringLayout.SOUTH, fileOpenButton);
 		sl_panel.putConstraint(SpringLayout.NORTH, fileNewButton, 0, SpringLayout.NORTH, fileOpenButton);
 		sl_panel.putConstraint(SpringLayout.SOUTH, fileNewButton, 0, SpringLayout.SOUTH, fileOpenButton);
 		sl_panel.putConstraint(SpringLayout.WEST, fileOpenButton, 17, SpringLayout.EAST, fileNewButton);
-		sl_panel.putConstraint(SpringLayout.NORTH, srchField, 0, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, srchField, 0, SpringLayout.SOUTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, fileNewButton, 71, SpringLayout.WEST, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, srchField, -508, SpringLayout.EAST, panel);
 		panel.setLayout(sl_panel);
 		sl_panel.putConstraint(SpringLayout.WEST, fileNewButton, 21, SpringLayout.WEST, panel);
 		panel.add(fileNewButton);
@@ -132,9 +136,9 @@ public class ClientWindow {
 		fileOpenButton.setIcon(new ImageIcon(ClientWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
 		
 		JLabel lblSearch = new JLabel("Keyword");
+		sl_panel.putConstraint(SpringLayout.WEST, srchField, 18, SpringLayout.EAST, lblSearch);
+		sl_panel.putConstraint(SpringLayout.EAST, lblSearch, -735, SpringLayout.EAST, panel);
 		sl_panel.putConstraint(SpringLayout.WEST, lblSearch, 42, SpringLayout.EAST, fileOpenButton);
-		sl_panel.putConstraint(SpringLayout.EAST, lblSearch, -791, SpringLayout.EAST, panel);
-		sl_panel.putConstraint(SpringLayout.WEST, srchField, 6, SpringLayout.EAST, lblSearch);
 		sl_panel.putConstraint(SpringLayout.NORTH, lblSearch, 0, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.SOUTH, lblSearch, 0, SpringLayout.SOUTH, panel);
 		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -231,13 +235,6 @@ public class ClientWindow {
 				
 			}
 		});
-		
-	
-		
-		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, fileOpenButton);
-		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 34, SpringLayout.EAST, srchField);
-		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 0, SpringLayout.SOUTH, fileOpenButton);
-		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -391, SpringLayout.EAST, panel);
 		panel.add(srchButton);
 		
 		// addin action listener to the file open button to open a file
