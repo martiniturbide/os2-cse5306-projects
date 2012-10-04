@@ -23,6 +23,11 @@ import cse.uta.edu.os2.server.ServerProg;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * this class responsible for displaying server GUI events the listener
+ * @author lakshmanas
+ *
+ */
 public class ServerWindow {
 
 	private JFrame frame;
@@ -34,28 +39,27 @@ public class ServerWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-/*		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-*/				try {
+				try {
+					//creates a server GUI object and calls the display
 					ServerWindow window = new ServerWindow();
 					window.frame.setVisible(true);
+					//calls the server socket program to lister for clients
 					window.listenServer();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-/*			}
-		});
-*/	}
+		}
 
 	/**
-	 * Create the application.
+	 * Create the application and initializes components.
 	 */
 	public ServerWindow() {
 		initialize();
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the contents of the frame and creates the visual 
+	 * components and aligns it and displays.
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -78,6 +82,7 @@ public class ServerWindow {
 		sl_menuPanel.putConstraint(SpringLayout.SOUTH, btnStop, -6, SpringLayout.SOUTH, menuPanel);
 		menuPanel.add(btnStop);
 		
+		//this button when presses clears the server log.
 		JButton btnClear = new JButton("Clear");
 		
 		sl_menuPanel.putConstraint(SpringLayout.NORTH, btnClear, 0, SpringLayout.NORTH, btnStop);
@@ -103,13 +108,14 @@ public class ServerWindow {
 		sl_textPanel.putConstraint(SpringLayout.SOUTH, scrollPane, -8, SpringLayout.SOUTH, textPanel);
 		textPanel.add(scrollPane);
 		
-
+		//adds the action listener clear button, so when presses it clears
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textArea.setText("");
 			}
 		});
 		
+		//adds the action listener to stop button, when presses it stops the server and exits the application
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				server.closeSocket();
@@ -118,33 +124,22 @@ public class ServerWindow {
 		});
 
 	}
-	
+
+	/** 
+	 * this method makes a call to server socket program to listen for clients
+	 */
 	public void  listenServer(){
 		server.listenToClients();
-/*		String clntMsg =null;
-		while( (clntMsg =server.recieveMessage())!=null){
-			if(clntMsg!=""){
-				HashSet<String> wordSynonyms = fileDict.getSynonyms(clntMsg);
-				String msg ="Client : "+clntMsg+"\n";
-				String synonys=null;
-				if(wordSynonyms!=null && wordSynonyms.size()>0){
-					synonys=wordSynonyms.toString();
-					msg=msg+"Server :" + synonys+"\n";
-					server.sendMessage(synonys);
-				}else{
-					msg=msg+"No Synonyms found \n";
-					System.out.println(this.getClass().getName()+" No Synonyms found for this word " +clntMsg );
-					server.sendMessage("NA");
-				}
-				textArea.setText(msg);
-			}
-		}
-*/	}
+	}
 
 	public void refresh(){
 		frame.validate();
 	}
 	
+	/**
+	 * this method sets the client requested word to server GUI window
+	 * @param msg
+	 */
 	public void setTextArea(String msg){
 		textArea.append(msg);
 	}

@@ -7,12 +7,22 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * this class responsible for creating the client program socket and make 
+ * a request to the server for synonym for a word 
+ * @author lakshmanas
+ *
+ */
 public class ClientProg {
 	
 	private Socket socket=null;
 	private BufferedReader is=null;
 	private PrintWriter os=null;
 	
+	/** 
+	 * creates the client socket and with the given server port 
+	 * and creates the input and output stream for that opened socket
+	 */
 	public ClientProg()
 	{
 		try {
@@ -31,6 +41,10 @@ public class ClientProg {
 		 	
 	}
 	
+	/**
+	 * in this method client requests a server with the word and 
+	 * waits for the server to respond and displays the server response
+	 */
 	public void readWriteScoket(){
 		String line=null;
 		String text="Hi, there, How u doing today ?";
@@ -38,7 +52,9 @@ public class ClientProg {
 		BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			while((text = sysIn.readLine())!=null){
+				//writes it to the client output stream 
 				os.println(text);
+				//reads from the server output stream
 				line =is.readLine();
 				System.out.println("server : "+line);
 				System.out.println("client : ");
@@ -49,7 +65,10 @@ public class ClientProg {
 		}
 	}
 	
-	
+	/**
+	 * client sends out a message to the server
+	 * @param msg
+	 */
 	public void sendMessage(String msg){
 		if(msg!=null){
 			os.println(msg);
@@ -57,7 +76,11 @@ public class ClientProg {
 		
 	}
 
-	
+	/**
+	 * client waits for the server to write to it's output stream
+	 * and reads them
+	 * @return
+	 */
 	public String recieveMessage(){
 		String msg=null;
 		try {
@@ -69,6 +92,9 @@ public class ClientProg {
 		return msg;
 		}
 	
+	/**
+	 * this method closes the client socket and input and output stream
+	 */
 	public void closeSocket(){
 		try {
 			is.close();
@@ -80,6 +106,10 @@ public class ClientProg {
 		}
 	}
 	
+	/**
+	 * main method to test the client program
+	 * @param args
+	 */
 	public static void main(String args[]){
 		ClientProg client = new ClientProg();
 		client.sendMessage("augment");
