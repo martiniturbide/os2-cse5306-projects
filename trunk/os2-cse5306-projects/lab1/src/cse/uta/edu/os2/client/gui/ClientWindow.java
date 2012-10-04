@@ -47,6 +47,12 @@ import javax.swing.JList;
 import java.awt.Rectangle;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * this class involves the Client GUI methods and variables
+ * running this method will display the client GUI
+ * @author lakshmanas
+ *
+ */
 public class ClientWindow {
 
 	private JFrame frame;
@@ -64,10 +70,11 @@ public class ClientWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+		//creatin a thread to run the client GUI
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					//client object is created and made visible 
 					ClientWindow window = new ClientWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -79,16 +86,17 @@ public class ClientWindow {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the application and initialize the client GUI components
 	 */
 	public ClientWindow() {
 		initialize();
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * This method creates and Initializes the contents of the frame.
 	 */
 	private void initialize() {
+		// a frame is created for the client
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(1024, 800));
 		frame.setMaximumSize(new Dimension(1024, 800));
@@ -97,7 +105,7 @@ public class ClientWindow {
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		
-		
+		// a panel is created inside the frame
 		JPanel panel = new JPanel();
 		springLayout.putConstraint(SpringLayout.WEST, panel, 10, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, -738, SpringLayout.SOUTH, frame.getContentPane());
@@ -191,33 +199,31 @@ public class ClientWindow {
 		listPanel.add(scrollList);
 		sl_textPanel.putConstraint(SpringLayout.SOUTH, list, 714, SpringLayout.NORTH, textPanel);
 		
+		// adding mouse event listener to the synonym list, so whenever an item is selected, it triggers the 
+		// following event.
 		list.addMouseListener(new MouseListener() {
 			
-
 			public void mouseReleased(MouseEvent e) {
 				
 			}
-			
-
 			public void mousePressed(MouseEvent e) {
 				
 			}
-			
-
 			public void mouseExited(MouseEvent e) {
 			}
-			
-
 			public void mouseEntered(MouseEvent e) {
 			}
-			
-
+			/**
+			 * whenever an item is selected, the item is replaced with the selected content from the text panel
+			 */
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton()==MouseEvent.BUTTON1){
+					//on double clicking the mouse
 					if(e.getClickCount()==2){
 						int index = list.locationToIndex(e.getPoint());
 						String item =(String)listModel.getElementAt(index);
 						System.out.println("selected synonym is : "+item);
+						//if item is not null replace the selection
 						if(textArea.getSelectedText()!=null)
 							textArea.replaceSelection(item);
 					}
@@ -226,8 +232,7 @@ public class ClientWindow {
 			}
 		});
 		
-
-		
+	
 		
 		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, fileOpenButton);
 		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 34, SpringLayout.EAST, srchField);
@@ -235,7 +240,7 @@ public class ClientWindow {
 		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -391, SpringLayout.EAST, panel);
 		panel.add(srchButton);
 		
-
+		// addin action listener to the file open button to open a file
 		fileOpenButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent event) {
@@ -243,6 +248,7 @@ public class ClientWindow {
 			}
 		});
 		 
+		//adding action listener to clear the content
 		fileNewButton.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0) {
@@ -250,20 +256,29 @@ public class ClientWindow {
 			}
 		});
 		
+		/**
+		 * addin action listener to the search button, so when entered it 
+		 * sends out the search text to the server and displays the received message in the list.
+		 */
 		srchButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 
 				if(srchField.getText()!=null && srchField.getText()!=""){
 					String srchText = srchField.getText();
+					// get suggested words from the server
 					String suggestedWords =getWordSuggestion(srchText);
+					
 					if(suggestedWords!=null && suggestedWords!="NA"){
 						String words[] = suggestedWords.split(",");
+						//remove all existing item in the list
 						listModel.removeAllElements();
+						//populate the items in the list.
 						if(words!=null && words.length>0){
 							for(String word: words){
 								word=word.replaceFirst("\\[", " ");
 								word=word.replaceFirst("\\]", " ");
+								//adding item to the synonym list
 								listModel.addElement(word);
 							}
 						}
@@ -272,6 +287,8 @@ public class ClientWindow {
 			}
 		});
 
+		
+		//adding mouse listener to the text area, whenever a text is selected event is triggered
 		textArea.addMouseListener(new MouseListener() {
 			
 			public void mouseReleased(MouseEvent e) {
@@ -285,9 +302,11 @@ public class ClientWindow {
 			
 			public void mouseEntered(MouseEvent e) {
 			}
-			
+			/**
+			 * on right click the selected text will be sent to the search text and sent to the server
+			 * the received message will be displayed in the list
+			 */
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 				if(e.getButton()==MouseEvent.BUTTON3){
 					String selectedText=null;
 					if(textArea.getSelectedText()!=null){
@@ -295,14 +314,16 @@ public class ClientWindow {
 						System.out.println(this.getClass().getName() + "Selected text from text area is "+selectedText);
 						srchField.setText(selectedText);
 						String suggestedWords =getWordSuggestion(selectedText);
-
+						// suggested words are the list from the server
 						if(suggestedWords!=null && suggestedWords!="NA"){
 							String words[] = suggestedWords.split(",");
+							//list is emptied and populated with the new words
 							listModel.removeAllElements();
 							if(words!=null && words.length>0){
 								for(String word: words){
 									word=word.replaceFirst("\\[", " ");
 									word=word.replaceFirst("\\]", " ");
+									//adding a word to the list
 									listModel.addElement(word);
 								}
 							}
@@ -314,37 +335,54 @@ public class ClientWindow {
 		});
 		
 	}
-
+	
+	/**
+	 * clears the content of the client text area
+	 */
 	public void clearTextArea(){
 		textArea.setText("");
 	}
 	
-
+	/**
+	 * this method takes input word from user and sends it to the user to fetch the 
+	 * synonym list for the user word
+	 * @param word
+	 * @return
+	 */
 	public String getWordSuggestion(String word){
 		String clntText=null;
 		String srvText=null;
 		if(srchField.getText()!=null && srchField.getText()!=""){
+			//get the client search word
 			clntText = srchField.getText();
 			System.out.println(this.getClass().getName() +" Client sent word "+ clntText);
+			//sends the word to the server
 			client.sendMessage(clntText);
+			//receives synonym from the server
 			srvText = client.recieveMessage();
 			System.out.println(this.getClass().getName() +" Client recieved word "+ srvText);
 		}
 		return srvText;
 	}
 	
+	/**
+	 * this method opens a file for viewing 
+	 */
 	public void openFile(){
 		int retVal =fileChooser.showOpenDialog(fileOpenButton);
 		if(retVal==JFileChooser.APPROVE_OPTION){
+			//opens the file chooser
 			File file =fileChooser.getSelectedFile();
 			StringBuilder stringBuilder = new StringBuilder();
 			String line=null;
 			try {
+				//open the buffer reader and reads the file 
 				BufferedReader reader = new BufferedReader(new FileReader(file));
 				while((line =reader.readLine())!=null){
 					stringBuilder.append(line);
 					stringBuilder.append("\n");
 				}
+				//sets the content of the file to text area
 				textArea.setText(stringBuilder.toString());
 			} 
 			catch (FileNotFoundException e) {
