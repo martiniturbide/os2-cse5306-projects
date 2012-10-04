@@ -1,27 +1,18 @@
 package cse.uta.edu.os2.server.gui;
 
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.util.HashSet;
-
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.SpringLayout;
-import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
+import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
 import cse.uta.edu.os2.server.FileDictionary;
-
 import cse.uta.edu.os2.server.ServerProg;
-
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * this class responsible for displaying server GUI events the listener
