@@ -248,7 +248,7 @@ public class ClientWindow {
 			public void actionPerformed(ActionEvent e) {
 
 				if(srchField.getText()!=null && srchField.getText()!=""){
-					String srchText = srchField.getText();
+					String srchText = srchField.getText().trim();
 					// get suggested words from the server
 					String suggestedWords =getWordSuggestion(srchText);
 					
@@ -293,7 +293,7 @@ public class ClientWindow {
 				if(e.getButton()==MouseEvent.BUTTON3){
 					String selectedText=null;
 					if(textArea.getSelectedText()!=null){
-						selectedText=textArea.getSelectedText();
+						selectedText=textArea.getSelectedText().trim();
 						System.out.println(this.getClass().getName() + "Selected text from text area is "+selectedText);
 						srchField.setText(selectedText);
 						String suggestedWords =getWordSuggestion(selectedText);
