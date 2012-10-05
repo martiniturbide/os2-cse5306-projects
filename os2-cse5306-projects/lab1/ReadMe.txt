@@ -15,6 +15,9 @@ Project Description :
 	allow the user to select another word.
 
 
+Software : Used JDK 6 to implement this project.  
+----------
+
 Limitation: 
 -----------
 	Dictionary is implemented for only limited set of words, if word is search which is not in the Dictionary.txt file, it will show the 
@@ -69,7 +72,7 @@ Running the Application:
 	2. open the cse.uta.edu.os2.client.gui.ClientWindow , right click run as Java application
 	3. now you have two windows opened one is server and other is client 
 	4. Go to the client window, enter any keyword in the search box at the top of the menu and 
-	    press enter, this will fetch the synonym list and displays in the left panel 
+	    click search button, this will fetch the synonym list and displays in the left panel 
 	5. Another way to run is by typing any text in the client window text area at the main window, double clicking on the 
 		entered text will highlight the text, now if you left click on the text window , this will make a request 
 		to the server and displays the synonyms list for that word in the left panel.
