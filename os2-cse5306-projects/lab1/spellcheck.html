@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#submit').click(function(){
+		$.ajax({
+			type: "GET",
+		    url: "http://wsf.cdyne.com/SpellChecker/check.asmx/CheckTextBodyV2",
+		    data: {BodyText:"resf"},
+		    contentType: "application/xml",
+		    dataType: "json",
+		    success: function(msg) {
+		    	alter(msg);
+		    }
+	  	});
+	});
+});
+
+</script>
+<title>Insert title here</title>
+</head>
+
+<body>
+	<div>
+		<input id="input" type="text" name="text">
+		<input id="submit" type="button" name="submit" >
+	</div>
+</body>
+</html>
