@@ -31,6 +31,8 @@ import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import org.apache.axis2.axis2userguide.SpellCheckClient;
+
 
 
 public class SpellChecClientWindow {
@@ -42,9 +44,9 @@ public class SpellChecClientWindow {
 	private JButton srchButton = new JButton("Search");
 	private JTextField srchField = new JTextField();
 	private JFileChooser fileChooser = new JFileChooser();
-	private DefaultListModel listModel = new DefaultListModel();
+	private DefaultListModel<String> listModel = new DefaultListModel<String>();
 	private JList list = new JList(listModel);
-	private S
+	private SpellCheckClient client = new SpellCheckClient();
 
 
 	/**
@@ -54,7 +56,7 @@ public class SpellChecClientWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SpellChecClient window = new SpellChecClient();
+					SpellChecClientWindow window = new SpellChecClientWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -244,73 +246,22 @@ public class SpellChecClientWindow {
 				if(srchField.getText()!=null && srchField.getText()!=""){
 					String srchText = srchField.getText().trim();
 					// get suggested words from the server
-					String suggestedWords =getWordSuggestion(srchText);
-					
-					if(suggestedWords!=null && suggestedWords!="NA"){
-						String words[] = suggestedWords.split(",");
+					ArrayList<String> suggestedWords =getWordSuggestion(srchText);
+					if(suggestedWords!=null && suggestedWords.size()>0){
 						//remove all existing item in the list
 						listModel.removeAllElements();
 						//populate the items in the list.
-						if(words!=null && words.length>0){
-							for(String word: words){
-								word=word.replaceFirst("\\[", " ");
-								word=word.replaceFirst("\\]", " ");
-								//adding item to the synonym list
-								listModel.addElement(word);
-							}
+						for(String word: suggestedWords){
+							listModel.addElement(word);
 						}
+						textArea.setText("");
+						String xmlRes =client.getXMLResponse();
+						textArea.setText(xmlRes);
 					}
 				}
 			}
 		});
 
-		
-		//adding mouse listener to the text area, whenever a text is selected event is triggered
-		textArea.addMouseListener(new MouseListener() {
-			
-			public void mouseReleased(MouseEvent e) {
-			}
-			
-			public void mousePressed(MouseEvent e) {
-			}
-			
-			public void mouseExited(MouseEvent e) {
-			}
-			
-			public void mouseEntered(MouseEvent e) {
-			}
-			/**
-			 * on right click the selected text will be sent to the search text and sent to the server
-			 * the received message will be displayed in the list
-			 */
-			public void mouseClicked(MouseEvent e) {
-				if(e.getButton()==MouseEvent.BUTTON3){
-					String selectedText=null;
-					if(textArea.getSelectedText()!=null){
-						selectedText=textArea.getSelectedText().trim();
-						System.out.println(this.getClass().getName() + "Selected text from text area is "+selectedText);
-						srchField.setText(selectedText);
-						String suggestedWords =getWordSuggestion(selectedText);
-						// suggested words are the list from the server
-						if(suggestedWords!=null && suggestedWords!="NA"){
-							String words[] = suggestedWords.split(",");
-							//list is emptied and populated with the new words
-							listModel.removeAllElements();
-							if(words!=null && words.length>0){
-								for(String word: words){
-									word=word.replaceFirst("\\[", " ");
-									word=word.replaceFirst("\\]", " ");
-									//adding a word to the list
-									listModel.addElement(word);
-								}
-							}
-						}
-
-					}
-				}
-			}
-		});
-		
 	}
 	
 	/**
@@ -326,20 +277,18 @@ public class SpellChecClientWindow {
 	 * @param word
 	 * @return
 	 */
-	public String getWordSuggestion(String word){
+	public ArrayList<String> getWordSuggestion(String word){
 		String clntText=null;
-		String srvText=null;
+		ArrayList<String> wordsSuggestions=null;
 		if(srchField.getText()!=null && srchField.getText()!=""){
 			//get the client search word
 			clntText = srchField.getText();
 			System.out.println(this.getClass().getName() +" Client sent word "+ clntText);
 			//sends the word to the server
-			ArrayList<String> wordsSuggestions =client.g
-			//receives synonym from the server
+			wordsSuggestions =client.getSuggestionWord(clntText);
 			
-			System.out.println(this.getClass().getName() +" Client recieved word "+ srvText);
 		}
-		return srvText;
+		return wordsSuggestions;
 	}
 	
 	/**
