@@ -21,13 +21,12 @@ public class SpellCheckClient {
 	 * @param args
 	 */
 	CheckTextBodyV2Response response=null;
-	public ArrayList<String> getSuggestionWord(){
+	public ArrayList<String> getSuggestionWord(String misspelledWord){
 		ArrayList<String> suggestedWords=new ArrayList<String>();
 		try {
 				CheckStub stub = new CheckStub();
-				
 				CheckTextBodyV2 req = new CheckTextBodyV2();
-				req.setBodyText("rets");
+				req.setBodyText(misspelledWord);
 				response = stub.checkTextBodyV2(req);
 				if(response!=null  && response.getDocumentSummary()!=null && response.getDocumentSummary().getMisspelledWord()!=null){
 					Words []words =response.getDocumentSummary().getMisspelledWord();
@@ -70,6 +69,7 @@ public class SpellCheckClient {
 	}
 	
 	public static void main(String[] args) {
+		new SpellCheckClient().getSuggestionWord("resf");
 	}
 
 }
