@@ -1,15 +1,13 @@
 package org.apache.axis2.axis2userguide;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.axis2userguide.CheckStub.CheckTextBodyV2;
 import org.apache.axis2.axis2userguide.CheckStub.CheckTextBodyV2Response;
-import org.apache.axis2.axis2userguide.CheckStub.DocumentSummary;
 import org.apache.axis2.axis2userguide.CheckStub.Words;
 import org.apache.axis2.databinding.ADBException;
 
@@ -23,8 +21,8 @@ public class SpellCheckClient {
 	 * @param args
 	 */
 	CheckTextBodyV2Response response=null;
-	public String[] getSuggestionWord(){
-		String []sug=null;
+	public ArrayList<String> getSuggestionWord(){
+		ArrayList<String> suggestedWords=new ArrayList<String>();
 		try {
 				CheckStub stub = new CheckStub();
 				
@@ -37,9 +35,10 @@ public class SpellCheckClient {
 					{ 
 						for(int i=0;i<words.length;i++){
 							if(words[i].getSuggestions()!=null){
-								sug =words[i].getSuggestions();
+								String []sug =words[i].getSuggestions();
 								for(String word: sug){
 									System.out.println(word);
+									suggestedWords.add(word);
 								}	
 							}
 						}
@@ -52,7 +51,7 @@ public class SpellCheckClient {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return sug;
+		return suggestedWords;
 	}
 	
 	public String getXMLResponse(){
