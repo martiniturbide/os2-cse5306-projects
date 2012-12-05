@@ -1,5 +1,6 @@
 package cse.uta.edu.os2.client.gui;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -31,7 +32,9 @@ import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import org.apache.axis2.axis2userguide.SpellCheckClient;
+import cse.uta.edu.os2.client.SpellCheckClient;
+
+
 
 
 
@@ -255,7 +258,7 @@ public class SpellChecClientWindow {
 							listModel.addElement(word);
 						}
 						textArea.setText("");
-						String xmlRes =client.getXMLResponse();
+						String xmlRes =client.getResponseXML();
 						textArea.setText(xmlRes);
 					}
 				}
@@ -285,7 +288,7 @@ public class SpellChecClientWindow {
 			clntText = srchField.getText();
 			System.out.println(this.getClass().getName() +" Client sent word "+ clntText);
 			//sends the word to the server
-			wordsSuggestions =client.getSuggestionWord(clntText);
+			wordsSuggestions =client.callService(clntText);
 			
 		}
 		return wordsSuggestions;
