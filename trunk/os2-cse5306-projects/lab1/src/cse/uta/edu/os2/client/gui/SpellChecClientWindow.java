@@ -10,18 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,18 +30,24 @@ import cse.uta.edu.os2.client.SpellCheckClient;
 
 
 
-
+/**
+ * This class responsible for displaying the GUI, it creates the client object 
+ * and calls the web service client and gets the response from the client 
+ * and displays in the client.
+ * @author lakshmana s
+ *
+ */
 
 public class SpellChecClientWindow {
 
 	private JFrame frame;
 	private JEditorPane textArea = new JEditorPane();
+	//this button clears the text area
 	private JButton fileNewButton = new JButton("");
-	private JButton fileOpenButton = new JButton("");
+	//search field to enter input word
 	private JButton srchButton = new JButton("Search");
 	private JTextField srchField = new JTextField();
-	private JFileChooser fileChooser = new JFileChooser();
-	private DefaultListModel<String> listModel = new DefaultListModel<String>();
+	private DefaultListModel listModel = new DefaultListModel();
 	private JList list = new JList(listModel);
 	private SpellCheckClient client = new SpellCheckClient();
 
@@ -78,6 +78,8 @@ public class SpellChecClientWindow {
 
 	/**
 	 * This method creates and Initializes the contents of the frame.
+	 * initializes different components and sets the position in the frame and
+	 * adds the components to the frame 
 	 */
 	private void initialize() {
 		// a frame is created for the client
@@ -98,32 +100,25 @@ public class SpellChecClientWindow {
 		springLayout.putConstraint(SpringLayout.EAST, panel, -17, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(panel);
 		SpringLayout sl_panel = new SpringLayout();
+		sl_panel.putConstraint(SpringLayout.WEST, srchField, 271, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 0, SpringLayout.SOUTH, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, fileNewButton, 0, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, fileNewButton, 0, SpringLayout.SOUTH, panel);
 		sl_panel.putConstraint(SpringLayout.WEST, srchButton, 15, SpringLayout.EAST, srchField);
 		sl_panel.putConstraint(SpringLayout.EAST, srchField, -433, SpringLayout.EAST, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, srchButton, -327, SpringLayout.EAST, panel);
 		sl_panel.putConstraint(SpringLayout.NORTH, srchField, 0, SpringLayout.NORTH, fileNewButton);
 		sl_panel.putConstraint(SpringLayout.SOUTH, srchField, 0, SpringLayout.SOUTH, panel);
-		sl_panel.putConstraint(SpringLayout.NORTH, srchButton, 0, SpringLayout.NORTH, fileNewButton);
-		sl_panel.putConstraint(SpringLayout.SOUTH, srchButton, 0, SpringLayout.SOUTH, fileOpenButton);
-		sl_panel.putConstraint(SpringLayout.NORTH, fileNewButton, 0, SpringLayout.NORTH, fileOpenButton);
-		sl_panel.putConstraint(SpringLayout.SOUTH, fileNewButton, 0, SpringLayout.SOUTH, fileOpenButton);
-		sl_panel.putConstraint(SpringLayout.WEST, fileOpenButton, 17, SpringLayout.EAST, fileNewButton);
 		sl_panel.putConstraint(SpringLayout.EAST, fileNewButton, 71, SpringLayout.WEST, panel);
 		panel.setLayout(sl_panel);
 		sl_panel.putConstraint(SpringLayout.WEST, fileNewButton, 21, SpringLayout.WEST, panel);
 		panel.add(fileNewButton);
 		fileNewButton.setIcon(new ImageIcon(ClientWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/File.gif")));
 		
-		
-		sl_panel.putConstraint(SpringLayout.NORTH, fileOpenButton, 0, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, fileOpenButton, 0, SpringLayout.SOUTH, panel);
-		panel.add(fileOpenButton);
-		fileOpenButton.setIcon(new ImageIcon(ClientWindow.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
-		
 		JLabel lblSearch = new JLabel("Keyword");
-		sl_panel.putConstraint(SpringLayout.WEST, srchField, 18, SpringLayout.EAST, lblSearch);
-		sl_panel.putConstraint(SpringLayout.EAST, lblSearch, -735, SpringLayout.EAST, panel);
-		sl_panel.putConstraint(SpringLayout.WEST, lblSearch, 42, SpringLayout.EAST, fileOpenButton);
+		sl_panel.putConstraint(SpringLayout.WEST, lblSearch, 109, SpringLayout.EAST, fileNewButton);
+		sl_panel.putConstraint(SpringLayout.EAST, lblSearch, -18, SpringLayout.WEST, srchField);
 		sl_panel.putConstraint(SpringLayout.NORTH, lblSearch, 0, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.SOUTH, lblSearch, 0, SpringLayout.SOUTH, panel);
 		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -213,39 +208,33 @@ public class SpellChecClientWindow {
 						String item =(String)listModel.getElementAt(index);
 						System.out.println("selected synonym is : "+item);
 						//if item is not null replace the selection
-						if(textArea.getSelectedText()!=null)
-							textArea.replaceSelection(item);
+						//if(textArea.getSelectedText()!=null)
+						//	textArea.replaceSelection(item);
+						srchField.setText(item);
 					}
 				}
 				
 			}
 		});
 		panel.add(srchButton);
-		
-		// addin action listener to the file open button to open a file
-		fileOpenButton.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent event) {
-				openFile();
-			}
-		});
 		 
 		//adding action listener to clear the content
 		fileNewButton.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0) {
 				clearTextArea();
+				
 			}
 		});
 		
 		/**
-		 * addin action listener to the search button, so when entered it 
+		 * adding action listener to the search button, so when entered it 
 		 * sends out the search text to the server and displays the received message in the list.
 		 */
 		srchButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-
+				listModel.addElement("Empty");
 				if(srchField.getText()!=null && srchField.getText()!=""){
 					String srchText = srchField.getText().trim();
 					// get suggested words from the server
@@ -257,26 +246,60 @@ public class SpellChecClientWindow {
 						for(String word: suggestedWords){
 							listModel.addElement(word);
 						}
-						textArea.setText("");
-						String xmlRes =client.getResponseXML();
-						textArea.setText(xmlRes);
 					}
 				}
+				textArea.setText("");
+				String xmlReq= client.getRequestXML();
+				String xmlRes =client.getResponseXML();
+				String xmlOut = "Request : \n\n"+xmlReq+"\n\n\n"+xmlRes;
+				textArea.setText(xmlOut);
 			}
 		});
 
-	}
+	
+	/**
+	 * adding action listener to the search field, so when entered it 
+	 * sends out the search text to the server and displays the received message in the list.
+	 */
+	srchField.addActionListener(new ActionListener() {
+		
+		public void actionPerformed(ActionEvent e) {
+			listModel.addElement("Empty");
+			if(srchField.getText()!=null && srchField.getText()!=""){
+				String srchText = srchField.getText().trim();
+				// get suggested words from the server
+				ArrayList<String> suggestedWords =getWordSuggestion(srchText);
+				if(suggestedWords!=null && suggestedWords.size()>0){
+					//remove all existing item in the list
+					listModel.removeAllElements();
+					//populate the items in the list.
+					for(String word: suggestedWords){
+						listModel.addElement(word);
+					}
+				}
+			}
+			textArea.setText("");
+			String xmlReq= client.getRequestXML();
+			String xmlRes =client.getResponseXML();
+			String xmlOut = "Request : \n\n"+xmlReq+"\n\n\n"+xmlRes;
+			textArea.setText(xmlOut);
+		}
+	});
+}
+
 	
 	/**
 	 * clears the content of the client text area
 	 */
 	public void clearTextArea(){
 		textArea.setText("");
+		listModel.removeAllElements();
+		srchField.setText("");
 	}
 	
 	/**
-	 * this method takes input word from user and sends it to the user to fetch the 
-	 * synonym list for the user word
+	 * this method takes misspelled word from user and sends it to the user to fetch the 
+	 * suggested  list for the user word
 	 * @param word
 	 * @return
 	 */
@@ -294,35 +317,5 @@ public class SpellChecClientWindow {
 		return wordsSuggestions;
 	}
 	
-	/**
-	 * this method opens a file for viewing 
-	 */
-	public void openFile(){
-		int retVal =fileChooser.showOpenDialog(fileOpenButton);
-		if(retVal==JFileChooser.APPROVE_OPTION){
-			//opens the file chooser
-			File file =fileChooser.getSelectedFile();
-			StringBuilder stringBuilder = new StringBuilder();
-			String line=null;
-			try {
-				//open the buffer reader and reads the file 
-				BufferedReader reader = new BufferedReader(new FileReader(file));
-				while((line =reader.readLine())!=null){
-					stringBuilder.append(line);
-					stringBuilder.append("\n");
-				}
-				//sets the content of the file to text area
-				textArea.setText(stringBuilder.toString());
-			} 
-			catch (FileNotFoundException e) {
-				System.out.println(this.getClass().getName() +" Exception while opening the selected file :"+file.getAbsoluteFile());
-				e.printStackTrace();
-			}
-			catch (IOException e) {
-				System.out.println(this.getClass().getName() +" Exception while reading the selected file :"+file.getAbsoluteFile());
-				e.printStackTrace();
-			}
-		}
-	}
 
 }
